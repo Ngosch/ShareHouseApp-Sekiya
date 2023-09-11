@@ -110,6 +110,21 @@
             </objects>
             <point key="canvasLocation" x="1653" y="1"/>
         </scene>
+        <!--Room Selection View Controller-->
+        <scene sceneID="qU1-n9-IwU">
+            <objects>
+                <viewController id="8g1-at-kZJ" customClass="RoomSelectionViewController" customModule="ShareHouseApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KXE-Ec-AUW">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="cjh-k5-elO"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C26-4c-qL1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2451" y="1"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="Yql-wl-dwl">
             <objects>
