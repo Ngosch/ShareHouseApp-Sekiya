@@ -58,7 +58,9 @@ class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, U
     
     @objc func goToPayment() {
         print("お支払いへ遷移")
-        // お支払い画面への遷移ロジックをここに追加
+        // お支払い画面への遷移ロジック
+        let paymentVC = PaymentViewController()
+        navigationController?.pushViewController(paymentVC, animated: true)
     }
 }
 

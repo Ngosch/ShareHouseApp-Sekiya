@@ -17,6 +17,13 @@
 		FCBA41992AAF156B009EF8DC /* ReservationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBA41982AAF156B009EF8DC /* ReservationViewController.swift */; };
 		FCBA419C2AAF1C1D009EF8DC /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = FCBA419B2AAF1C1D009EF8DC /* FSCalendar */; };
 		FCBA419E2AAF2081009EF8DC /* RoomSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBA419D2AAF2081009EF8DC /* RoomSelectionViewController.swift */; };
+		FCBA41A02AAF2CAB009EF8DC /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBA419F2AAF2CAB009EF8DC /* PaymentViewController.swift */; };
+		FCBA41A32AAF2CFE009EF8DC /* CardPayments in Frameworks */ = {isa = PBXBuildFile; productRef = FCBA41A22AAF2CFE009EF8DC /* CardPayments */; };
+		FCBA41A52AAF2CFE009EF8DC /* CorePayments in Frameworks */ = {isa = PBXBuildFile; productRef = FCBA41A42AAF2CFE009EF8DC /* CorePayments */; };
+		FCBA41A72AAF2CFE009EF8DC /* FraudProtection in Frameworks */ = {isa = PBXBuildFile; productRef = FCBA41A62AAF2CFE009EF8DC /* FraudProtection */; };
+		FCBA41A92AAF2CFE009EF8DC /* PayPalNativePayments in Frameworks */ = {isa = PBXBuildFile; productRef = FCBA41A82AAF2CFE009EF8DC /* PayPalNativePayments */; };
+		FCBA41AB2AAF2CFE009EF8DC /* PayPalWebPayments in Frameworks */ = {isa = PBXBuildFile; productRef = FCBA41AA2AAF2CFE009EF8DC /* PayPalWebPayments */; };
+		FCBA41AD2AAF2CFE009EF8DC /* PaymentButtons in Frameworks */ = {isa = PBXBuildFile; productRef = FCBA41AC2AAF2CFE009EF8DC /* PaymentButtons */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +38,7 @@
 		FCBA41942AAED477009EF8DC /* PropertyDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyDetailViewController.swift; sourceTree = "<group>"; };
 		FCBA41982AAF156B009EF8DC /* ReservationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationViewController.swift; sourceTree = "<group>"; };
 		FCBA419D2AAF2081009EF8DC /* RoomSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomSelectionViewController.swift; sourceTree = "<group>"; };
+		FCBA419F2AAF2CAB009EF8DC /* PaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,7 +46,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCBA41A72AAF2CFE009EF8DC /* FraudProtection in Frameworks */,
+				FCBA41AB2AAF2CFE009EF8DC /* PayPalWebPayments in Frameworks */,
+				FCBA41AD2AAF2CFE009EF8DC /* PaymentButtons in Frameworks */,
 				FCBA419C2AAF1C1D009EF8DC /* FSCalendar in Frameworks */,
+				FCBA41A92AAF2CFE009EF8DC /* PayPalNativePayments in Frameworks */,
+				FCBA41A32AAF2CFE009EF8DC /* CardPayments in Frameworks */,
+				FCBA41A52AAF2CFE009EF8DC /* CorePayments in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,9 +81,10 @@
 				FCBA41802AAE9F65009EF8DC /* AppDelegate.swift */,
 				FCBA41822AAE9F65009EF8DC /* SceneDelegate.swift */,
 				FCBA41842AAE9F65009EF8DC /* ViewController.swift */,
+				FCBA41942AAED477009EF8DC /* PropertyDetailViewController.swift */,
 				FCBA41982AAF156B009EF8DC /* ReservationViewController.swift */,
 				FCBA419D2AAF2081009EF8DC /* RoomSelectionViewController.swift */,
-				FCBA41942AAED477009EF8DC /* PropertyDetailViewController.swift */,
+				FCBA419F2AAF2CAB009EF8DC /* PaymentViewController.swift */,
 				FCBA41862AAE9F65009EF8DC /* Main.storyboard */,
 				FCBA41892AAE9F66009EF8DC /* Assets.xcassets */,
 				FCBA418B2AAE9F66009EF8DC /* LaunchScreen.storyboard */,
@@ -96,6 +111,12 @@
 			name = ShareHouseApp;
 			packageProductDependencies = (
 				FCBA419B2AAF1C1D009EF8DC /* FSCalendar */,
+				FCBA41A22AAF2CFE009EF8DC /* CardPayments */,
+				FCBA41A42AAF2CFE009EF8DC /* CorePayments */,
+				FCBA41A62AAF2CFE009EF8DC /* FraudProtection */,
+				FCBA41A82AAF2CFE009EF8DC /* PayPalNativePayments */,
+				FCBA41AA2AAF2CFE009EF8DC /* PayPalWebPayments */,
+				FCBA41AC2AAF2CFE009EF8DC /* PaymentButtons */,
 			);
 			productName = ShareHouseApp;
 			productReference = FCBA417D2AAE9F65009EF8DC /* ShareHouseApp.app */;
@@ -127,6 +148,7 @@
 			mainGroup = FCBA41742AAE9F65009EF8DC;
 			packageReferences = (
 				FCBA419A2AAF1C1D009EF8DC /* XCRemoteSwiftPackageReference "FSCalendar" */,
+				FCBA41A12AAF2CFE009EF8DC /* XCRemoteSwiftPackageReference "paypal-ios" */,
 			);
 			productRefGroup = FCBA417E2AAE9F65009EF8DC /* Products */;
 			projectDirPath = "";
@@ -155,6 +177,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCBA41A02AAF2CAB009EF8DC /* PaymentViewController.swift in Sources */,
 				FCBA419E2AAF2081009EF8DC /* RoomSelectionViewController.swift in Sources */,
 				FCBA41992AAF156B009EF8DC /* ReservationViewController.swift in Sources */,
 				FCBA41952AAED477009EF8DC /* PropertyDetailViewController.swift in Sources */,
@@ -388,6 +411,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		FCBA41A12AAF2CFE009EF8DC /* XCRemoteSwiftPackageReference "paypal-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/paypal/paypal-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.11;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -395,6 +426,36 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FCBA419A2AAF1C1D009EF8DC /* XCRemoteSwiftPackageReference "FSCalendar" */;
 			productName = FSCalendar;
+		};
+		FCBA41A22AAF2CFE009EF8DC /* CardPayments */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FCBA41A12AAF2CFE009EF8DC /* XCRemoteSwiftPackageReference "paypal-ios" */;
+			productName = CardPayments;
+		};
+		FCBA41A42AAF2CFE009EF8DC /* CorePayments */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FCBA41A12AAF2CFE009EF8DC /* XCRemoteSwiftPackageReference "paypal-ios" */;
+			productName = CorePayments;
+		};
+		FCBA41A62AAF2CFE009EF8DC /* FraudProtection */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FCBA41A12AAF2CFE009EF8DC /* XCRemoteSwiftPackageReference "paypal-ios" */;
+			productName = FraudProtection;
+		};
+		FCBA41A82AAF2CFE009EF8DC /* PayPalNativePayments */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FCBA41A12AAF2CFE009EF8DC /* XCRemoteSwiftPackageReference "paypal-ios" */;
+			productName = PayPalNativePayments;
+		};
+		FCBA41AA2AAF2CFE009EF8DC /* PayPalWebPayments */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FCBA41A12AAF2CFE009EF8DC /* XCRemoteSwiftPackageReference "paypal-ios" */;
+			productName = PayPalWebPayments;
+		};
+		FCBA41AC2AAF2CFE009EF8DC /* PaymentButtons */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FCBA41A12AAF2CFE009EF8DC /* XCRemoteSwiftPackageReference "paypal-ios" */;
+			productName = PaymentButtons;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
