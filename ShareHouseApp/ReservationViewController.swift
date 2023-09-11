@@ -6,23 +6,15 @@
 //
 
 import UIKit
+import FSCalendar
 
-class ReservationViewController: UIViewController {
+class ReservationViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource {
     
-    // UIDatePickerを使用してカレンダーを表示
-    let datePicker: UIDatePicker = {
-        let picker = UIDatePicker()
-        picker.datePickerMode = .date
-        picker.translatesAutoresizingMaskIntoConstraints = false
-        return picker
-    }()
-    
-    let reserveButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("予約する", for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(reserveDate), for: .touchUpInside)
-        return button
+    // FSCalendarのインスタンスを作成
+    let calendar: FSCalendar = {
+        let calendar = FSCalendar()
+        calendar.translatesAutoresizingMaskIntoConstraints = false
+        return calendar
     }()
     
     override func viewDidLoad() {
@@ -31,28 +23,34 @@ class ReservationViewController: UIViewController {
         view.backgroundColor = .white
         title = "予約"
         
-        // カレンダーとボタンをビューに追加
-        view.addSubview(datePicker)
-        view.addSubview(reserveButton)
+        // FSCalendarのデリゲートとデータソースを設定
+        calendar.delegate = self
+        calendar.dataSource = self
+        
+        // FSCalendarをビューに追加
+        view.addSubview(calendar)
         
         setupLayout()
     }
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            datePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            
-            reserveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            reserveButton.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 20)
+            calendar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            calendar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            calendar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            calendar.heightAnchor.constraint(equalToConstant: 400)
         ])
     }
     
-    @objc func reserveDate() {
-        let selectedDate = datePicker.date
-        print("選択された日付: \(selectedDate)")
-        
-        // 予約処理をここに書く
-        // 例: データベースに予約情報を保存するなど
+    // FSCalendarのデリゲートとデータソースメソッドを追加（必要に応じて）
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        print("選択された日付: \(date)")
+    }
+    
+    // 予約可能な日付を色付けする場合のメソッド
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
+        // ここで予約可能な日付を指定し、その日付の色を返す
+        // 例: 予約可能な日付の配列を持っている場合、その日付に対して特定の色を返す
+        return nil
     }
 }
