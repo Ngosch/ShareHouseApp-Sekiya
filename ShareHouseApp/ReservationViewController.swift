@@ -17,6 +17,17 @@ class ReservationViewController: UIViewController, FSCalendarDelegate, FSCalenda
         return calendar
     }()
     
+    // 部屋選択画面への遷移ボタンのインスタンスを作成
+    let roomSelectionButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("部屋を選択", for: .normal)
+        button.backgroundColor = .blue
+        button.setTitleColor(.white, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(goToRoomSelection), for: .touchUpInside)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,6 +41,9 @@ class ReservationViewController: UIViewController, FSCalendarDelegate, FSCalenda
         // FSCalendarをビューに追加
         view.addSubview(calendar)
         
+        // 遷移ボタンをビューに追加
+        view.addSubview(roomSelectionButton)
+        
         setupLayout()
     }
     
@@ -38,9 +52,21 @@ class ReservationViewController: UIViewController, FSCalendarDelegate, FSCalenda
             calendar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             calendar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             calendar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            calendar.heightAnchor.constraint(equalToConstant: 400)
+            calendar.heightAnchor.constraint(equalToConstant: 400),
+            
+            roomSelectionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            roomSelectionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            roomSelectionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            roomSelectionButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
+    
+    // 部屋選択画面への遷移メソッド
+    @objc func goToRoomSelection() {
+        let roomSelectionVC = RoomSelectionViewController() // 部屋選択画面のViewControllerを仮定
+        navigationController?.pushViewController(roomSelectionVC, animated: true)
+    }
+    
     
     // FSCalendarのデリゲートとデータソースメソッドを追加（必要に応じて）
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
@@ -53,4 +79,5 @@ class ReservationViewController: UIViewController, FSCalendarDelegate, FSCalenda
         // 例: 予約可能な日付の配列を持っている場合、その日付に対して特定の色を返す
         return nil
     }
+            
 }

@@ -16,6 +16,7 @@
 		FCBA41952AAED477009EF8DC /* PropertyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBA41942AAED477009EF8DC /* PropertyDetailViewController.swift */; };
 		FCBA41992AAF156B009EF8DC /* ReservationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBA41982AAF156B009EF8DC /* ReservationViewController.swift */; };
 		FCBA419C2AAF1C1D009EF8DC /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = FCBA419B2AAF1C1D009EF8DC /* FSCalendar */; };
+		FCBA419E2AAF2081009EF8DC /* RoomSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBA419D2AAF2081009EF8DC /* RoomSelectionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		FCBA418E2AAE9F66009EF8DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FCBA41942AAED477009EF8DC /* PropertyDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyDetailViewController.swift; sourceTree = "<group>"; };
 		FCBA41982AAF156B009EF8DC /* ReservationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationViewController.swift; sourceTree = "<group>"; };
+		FCBA419D2AAF2081009EF8DC /* RoomSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomSelectionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				FCBA41822AAE9F65009EF8DC /* SceneDelegate.swift */,
 				FCBA41842AAE9F65009EF8DC /* ViewController.swift */,
 				FCBA41982AAF156B009EF8DC /* ReservationViewController.swift */,
+				FCBA419D2AAF2081009EF8DC /* RoomSelectionViewController.swift */,
 				FCBA41942AAED477009EF8DC /* PropertyDetailViewController.swift */,
 				FCBA41862AAE9F65009EF8DC /* Main.storyboard */,
 				FCBA41892AAE9F66009EF8DC /* Assets.xcassets */,
@@ -152,6 +155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCBA419E2AAF2081009EF8DC /* RoomSelectionViewController.swift in Sources */,
 				FCBA41992AAF156B009EF8DC /* ReservationViewController.swift in Sources */,
 				FCBA41952AAED477009EF8DC /* PropertyDetailViewController.swift in Sources */,
 				FCBA41852AAE9F65009EF8DC /* ViewController.swift in Sources */,
