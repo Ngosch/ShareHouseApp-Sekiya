@@ -14,6 +14,7 @@
 		FCBA418A2AAE9F66009EF8DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCBA41892AAE9F66009EF8DC /* Assets.xcassets */; };
 		FCBA418D2AAE9F66009EF8DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FCBA418B2AAE9F66009EF8DC /* LaunchScreen.storyboard */; };
 		FCBA41952AAED477009EF8DC /* PropertyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBA41942AAED477009EF8DC /* PropertyDetailViewController.swift */; };
+		FCBA41992AAF156B009EF8DC /* ReservationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBA41982AAF156B009EF8DC /* ReservationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		FCBA418C2AAE9F66009EF8DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FCBA418E2AAE9F66009EF8DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FCBA41942AAED477009EF8DC /* PropertyDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyDetailViewController.swift; sourceTree = "<group>"; };
+		FCBA41982AAF156B009EF8DC /* ReservationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				FCBA41802AAE9F65009EF8DC /* AppDelegate.swift */,
 				FCBA41822AAE9F65009EF8DC /* SceneDelegate.swift */,
 				FCBA41842AAE9F65009EF8DC /* ViewController.swift */,
+				FCBA41982AAF156B009EF8DC /* ReservationViewController.swift */,
 				FCBA41942AAED477009EF8DC /* PropertyDetailViewController.swift */,
 				FCBA41862AAE9F65009EF8DC /* Main.storyboard */,
 				FCBA41892AAE9F66009EF8DC /* Assets.xcassets */,
@@ -141,6 +144,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCBA41992AAF156B009EF8DC /* ReservationViewController.swift in Sources */,
 				FCBA41952AAED477009EF8DC /* PropertyDetailViewController.swift in Sources */,
 				FCBA41852AAE9F65009EF8DC /* ViewController.swift in Sources */,
 				FCBA41812AAE9F65009EF8DC /* AppDelegate.swift in Sources */,

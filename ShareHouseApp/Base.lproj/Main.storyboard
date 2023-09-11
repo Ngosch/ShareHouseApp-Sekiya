@@ -64,10 +64,10 @@
             </objects>
             <point key="canvasLocation" x="64.885496183206101" y="0.70422535211267612"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Property Detail View Controller-->
         <scene sceneID="ids-j5-37K">
             <objects>
-                <tableViewController id="SUg-KI-ogJ" sceneMemberID="viewController">
+                <tableViewController id="SUg-KI-ogJ" customClass="PropertyDetailViewController" customModule="ShareHouseApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="CWj-ge-XCw">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -87,10 +87,12 @@
                             <outlet property="delegate" destination="SUg-KI-ogJ" id="RGA-8C-HL1"/>
                         </connections>
                     </tableView>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e6Z-bO-pnC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="882" y="1"/>
+            <point key="canvasLocation" x="881.67938931297704" y="0.70422535211267612"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Yql-wl-dwl">

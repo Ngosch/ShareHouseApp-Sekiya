@@ -40,8 +40,18 @@ class PropertyDetailViewController: UITableViewController {
             headerImageView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 200)
             tableView.tableHeaderView = headerImageView
         }
-    }
+        
+        // ナビゲーションバーの右上に予約ボタンを追加
+        let reserveButton = UIBarButtonItem(title: "予約", style: .plain, target: self, action: #selector(reserveButtonTapped))
+        navigationItem.rightBarButtonItem = reserveButton
     
+    }
+    // 予約ボタンがタップされたときのアクション
+    @objc func reserveButtonTapped() {
+        // 予約画面への遷移のコードをここに書く
+        let reservationViewController = ReservationViewController() // 予約画面のViewControllerを仮定
+        navigationController?.pushViewController(reservationViewController, animated: true)
+    }
     // MARK: - UITableView DataSource & Delegate
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
