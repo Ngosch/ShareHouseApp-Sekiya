@@ -81,11 +81,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("セルがタップされました: \(indexPath.row)")
         let detailViewController = PropertyDetailViewController()
+        
+        // 選択された物件の画像名をPropertyDetailViewControllerに渡す
+        detailViewController.selectedPropertyImageName = "House\(indexPath.row % 3 + 1)"
+        
         navigationController?.pushViewController(detailViewController, animated: true)
         
         // セルの選択状態を解除
         tableView.deselectRow(at: indexPath, animated: true)
     }
+
 
 }
 

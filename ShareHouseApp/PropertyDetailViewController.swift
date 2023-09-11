@@ -10,6 +10,9 @@ import UIKit
 // 物件の詳細情報を表示するViewController
 class PropertyDetailViewController: UITableViewController {
     
+    // 物件の画像名を保持するプロパティ
+    var selectedPropertyImageName: String?
+    
     // 物件の詳細情報を保持する仮のデータモデル
     // これは後で実際のデータモデルに置き換えられます
     var propertyDetails: [String] = [
@@ -28,6 +31,15 @@ class PropertyDetailViewController: UITableViewController {
         
         // テーブルビューにセルのクラスを登録
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "detailCell")
+        
+        // 選択された物件の画像をテーブルヘッダーとして設定
+        if let imageName = selectedPropertyImageName {
+            let headerImageView = UIImageView(image: UIImage(named: imageName))
+            headerImageView.contentMode = .scaleAspectFill
+            headerImageView.clipsToBounds = true
+            headerImageView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 200)
+            tableView.tableHeaderView = headerImageView
+        }
     }
     
     // MARK: - UITableView DataSource & Delegate
