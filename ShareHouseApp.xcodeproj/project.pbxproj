@@ -24,6 +24,10 @@
 		FCBA41A92AAF2CFE009EF8DC /* PayPalNativePayments in Frameworks */ = {isa = PBXBuildFile; productRef = FCBA41A82AAF2CFE009EF8DC /* PayPalNativePayments */; };
 		FCBA41AB2AAF2CFE009EF8DC /* PayPalWebPayments in Frameworks */ = {isa = PBXBuildFile; productRef = FCBA41AA2AAF2CFE009EF8DC /* PayPalWebPayments */; };
 		FCBA41AD2AAF2CFE009EF8DC /* PaymentButtons in Frameworks */ = {isa = PBXBuildFile; productRef = FCBA41AC2AAF2CFE009EF8DC /* PaymentButtons */; };
+		FCBA41B12AAFF709009EF8DC /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FCBA41B02AAFF709009EF8DC /* FirebaseAuth */; };
+		FCBA41B32AAFF709009EF8DC /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = FCBA41B22AAFF709009EF8DC /* FirebaseDatabase */; };
+		FCBA41B52AAFF709009EF8DC /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = FCBA41B42AAFF709009EF8DC /* FirebaseStorage */; };
+		FCBA41B72AAFF8A8009EF8DC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCBA41B62AAFF8A8009EF8DC /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +43,7 @@
 		FCBA41982AAF156B009EF8DC /* ReservationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationViewController.swift; sourceTree = "<group>"; };
 		FCBA419D2AAF2081009EF8DC /* RoomSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomSelectionViewController.swift; sourceTree = "<group>"; };
 		FCBA419F2AAF2CAB009EF8DC /* PaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
+		FCBA41B62AAFF8A8009EF8DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,10 +54,13 @@
 				FCBA41A72AAF2CFE009EF8DC /* FraudProtection in Frameworks */,
 				FCBA41AB2AAF2CFE009EF8DC /* PayPalWebPayments in Frameworks */,
 				FCBA41AD2AAF2CFE009EF8DC /* PaymentButtons in Frameworks */,
+				FCBA41B52AAFF709009EF8DC /* FirebaseStorage in Frameworks */,
 				FCBA419C2AAF1C1D009EF8DC /* FSCalendar in Frameworks */,
 				FCBA41A92AAF2CFE009EF8DC /* PayPalNativePayments in Frameworks */,
 				FCBA41A32AAF2CFE009EF8DC /* CardPayments in Frameworks */,
+				FCBA41B32AAFF709009EF8DC /* FirebaseDatabase in Frameworks */,
 				FCBA41A52AAF2CFE009EF8DC /* CorePayments in Frameworks */,
+				FCBA41B12AAFF709009EF8DC /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +97,7 @@
 				FCBA41892AAE9F66009EF8DC /* Assets.xcassets */,
 				FCBA418B2AAE9F66009EF8DC /* LaunchScreen.storyboard */,
 				FCBA418E2AAE9F66009EF8DC /* Info.plist */,
+				FCBA41B62AAFF8A8009EF8DC /* GoogleService-Info.plist */,
 			);
 			path = ShareHouseApp;
 			sourceTree = "<group>";
@@ -117,6 +126,9 @@
 				FCBA41A82AAF2CFE009EF8DC /* PayPalNativePayments */,
 				FCBA41AA2AAF2CFE009EF8DC /* PayPalWebPayments */,
 				FCBA41AC2AAF2CFE009EF8DC /* PaymentButtons */,
+				FCBA41B02AAFF709009EF8DC /* FirebaseAuth */,
+				FCBA41B22AAFF709009EF8DC /* FirebaseDatabase */,
+				FCBA41B42AAFF709009EF8DC /* FirebaseStorage */,
 			);
 			productName = ShareHouseApp;
 			productReference = FCBA417D2AAE9F65009EF8DC /* ShareHouseApp.app */;
@@ -149,6 +161,7 @@
 			packageReferences = (
 				FCBA419A2AAF1C1D009EF8DC /* XCRemoteSwiftPackageReference "FSCalendar" */,
 				FCBA41A12AAF2CFE009EF8DC /* XCRemoteSwiftPackageReference "paypal-ios" */,
+				FCBA41AF2AAFF709009EF8DC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = FCBA417E2AAE9F65009EF8DC /* Products */;
 			projectDirPath = "";
@@ -165,6 +178,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FCBA418D2AAE9F66009EF8DC /* LaunchScreen.storyboard in Resources */,
+				FCBA41B72AAFF8A8009EF8DC /* GoogleService-Info.plist in Resources */,
 				FCBA418A2AAE9F66009EF8DC /* Assets.xcassets in Resources */,
 				FCBA41882AAE9F65009EF8DC /* Main.storyboard in Resources */,
 			);
@@ -419,6 +433,14 @@
 				minimumVersion = 0.0.11;
 			};
 		};
+		FCBA41AF2AAFF709009EF8DC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -456,6 +478,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FCBA41A12AAF2CFE009EF8DC /* XCRemoteSwiftPackageReference "paypal-ios" */;
 			productName = PaymentButtons;
+		};
+		FCBA41B02AAFF709009EF8DC /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FCBA41AF2AAFF709009EF8DC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		FCBA41B22AAFF709009EF8DC /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FCBA41AF2AAFF709009EF8DC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		FCBA41B42AAFF709009EF8DC /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FCBA41AF2AAFF709009EF8DC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
