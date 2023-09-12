@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseStorage
 import SDWebImage
+import FirebaseDatabase  // Firebase Realtime Databaseを使用するためのインポート
 
 // 主要なホーム画面のViewController
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -20,6 +21,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // Firebase Storageから取得した物件画像の数を保持するプロパティ
     var numberOfProperties: Int = 0
+    
+    // Firebase Realtime Databaseから取得した物件の情報を格納するプロパティ
+    var properties: [String: [String: String]] = [:]
     
     // ビューがメモリにロードされた後に呼ばれるメソッド
     override func viewDidLoad() {
@@ -40,6 +44,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // Firebase Storageから物件画像の数を取得
         fetchNumberOfProperties()
+        
+        // Firebase Realtime Databaseから物件の情報を取得
+        fetchPropertiesFromFirebase()
     }
     
     // Firebase Storageから物件画像の数を取得するメソッド
@@ -56,6 +63,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
     }
+    
+    // Firebase Realtime Databaseから物件の情報を取得するメソッド
+    private func fetchPropertiesFromFirebase() {
+        let ref = Database.database().reference().child("properties")
+        ref.observeSingleEvent(of: .value) { (snapshot) in
+            if let propertiesData = snapshot.value as? [String: [String: String]] {
+                self.properties = propertiesData
+                self.propertyTableView.reloadData()  // テーブルビューを更新
+            }
+        }
+    }
+
     
     // Auto Layoutの制約を設定するメソッド
     private func setupLayout() {
@@ -76,7 +95,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "PropertyCell", for: indexPath) as! PropertyTableViewCell
         
         // セルに物件名を設定
-        cell.propertyNameLabel.text = "物件 \(indexPath.row + 1)"
+        let propertyKey = "property\(indexPath.row + 1)"
+        if let propertyName = properties[propertyKey]?["name"] {
+            cell.propertyNameLabel.text = propertyName
+        } else {
+            cell.propertyNameLabel.text = "物件 \(indexPath.row + 1)"
+        }
         
         // Firebase Storageから画像をダウンロード
         let storageRef = Storage.storage().reference(withPath: "House/House\(indexPath.row + 1).jpg")
