@@ -10,6 +10,10 @@ import FSCalendar
 
 class ReservationViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource {
     
+    // 選択された開始日と終了日を保持するプロパティ
+    var startDate: Date?
+    var endDate: Date?
+    
     // FSCalendarのインスタンスを作成
     let calendar: FSCalendar = {
         let calendar = FSCalendar()
@@ -67,9 +71,22 @@ class ReservationViewController: UIViewController, FSCalendarDelegate, FSCalenda
         navigationController?.pushViewController(roomSelectionVC, animated: true)
     }
     
-    
     // FSCalendarのデリゲートとデータソースメソッドを追加（必要に応じて）
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        if startDate == nil {
+            startDate = date
+            endDate = nil
+        } else if endDate == nil {
+            endDate = date
+            if let start = startDate, let end = endDate, start > end {
+                // 開始日が終了日より後の場合、選択を入れ替える
+                swap(&startDate, &endDate)
+            }
+        } else {
+            startDate = date
+            endDate = nil
+        }
+        calendar.reloadData() // カレンダーの再描画{
         print("選択された日付: \(date)")
     }
     
