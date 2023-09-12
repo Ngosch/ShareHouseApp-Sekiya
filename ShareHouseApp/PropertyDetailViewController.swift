@@ -21,11 +21,18 @@ class PropertyDetailViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // 以下の2行を追加
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 100  // これは適切な推定値に変更できます
+        
         // タイトルを設定
         self.title = "拠点詳細"
         
         // テーブルビューにセルのクラスを登録
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "detailCell")
+        
+        // Firebase Realtime Databaseから物件の詳細情報と画像ファイル名を取得
+        fetchPropertyDetailsFromFirebase()
         
         // 選択された物件の画像をテーブルヘッダーとして設定
         if let imageName = selectedPropertyImageName {
@@ -58,7 +65,7 @@ class PropertyDetailViewController: UITableViewController {
     // Firebase Realtime Databaseから物件の詳細情報を取得するメソッド
     private func fetchPropertyDetailsFromFirebase() {
         guard let imageName = selectedPropertyImageName else { return }
-        let propertyId = imageName.replacingOccurrences(of: "House", with: "property").replacingOccurrences(of: ".jpg", with: "")
+        let propertyId = imageName.replacingOccurrences(of: "House", with: "property")
         let ref = Database.database().reference(withPath: "properties/\(propertyId)")
         ref.observeSingleEvent(of: .value) { (snapshot) in
             if let propertyData = snapshot.value as? [String: String] {
@@ -68,6 +75,26 @@ class PropertyDetailViewController: UITableViewController {
                     "説明: \(propertyData["description"] ?? "不明")",
                     "設備: \(propertyData["facilities"] ?? "不明")"
                 ]
+                
+                // Firebase Storageから画像を取得
+                if let imageNameFromDB = propertyData["image"] {
+                    let storageRef = Storage.storage().reference(withPath: "House/\(imageNameFromDB)")
+                    storageRef.downloadURL { (url, error) in
+                        if let error = error {
+                            print("Error getting download URL: \(error)")
+                            return
+                        }
+                        if let url = url {
+                            let headerImageView = UIImageView()
+                            headerImageView.sd_setImage(with: url as URL) // URL型として明示的にキャスト
+                            headerImageView.contentMode = .scaleAspectFill
+                            headerImageView.clipsToBounds = true
+                            headerImageView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 200)
+                            self.tableView.tableHeaderView = headerImageView
+                        }
+                    }
+                }
+                
                 self.tableView.reloadData()  // テーブルビューを更新
             }
         }
@@ -88,6 +115,10 @@ class PropertyDetailViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath)
+        
+        // 以下の行を追加
+        cell.textLabel?.numberOfLines = 0
+        
         cell.textLabel?.text = propertyDetails[indexPath.row]
         return cell
     }

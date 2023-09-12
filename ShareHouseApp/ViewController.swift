@@ -140,7 +140,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let detailViewController = PropertyDetailViewController()
         
         // 選択された物件の画像名をPropertyDetailViewControllerに渡す
-        detailViewController.selectedPropertyImageName = "House\(indexPath.row % 3 + 1)"
+        detailViewController.selectedPropertyImageName = "House\(indexPath.row + 1)"
         
         navigationController?.pushViewController(detailViewController, animated: true)
         
