@@ -18,6 +18,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     // Interface Builderと連携するためのテーブルビューのIBOutlet
     @IBOutlet weak var propertyTableView: UITableView!
     
+    // Firebase Storageから取得した物件画像の数を保持するプロパティ
+    var numberOfProperties: Int = 0
+    
     // ビューがメモリにロードされた後に呼ばれるメソッド
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +37,24 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // テーブルビューにカスタムセルのクラスを登録
         propertyTableView.register(PropertyTableViewCell.self, forCellReuseIdentifier: "PropertyCell")
+        
+        // Firebase Storageから物件画像の数を取得
+        fetchNumberOfProperties()
+    }
+    
+    // Firebase Storageから物件画像の数を取得するメソッド
+    private func fetchNumberOfProperties() {
+        let storageRef = Storage.storage().reference(withPath: "House")
+        storageRef.listAll { (result, error) in
+            if let error = error {
+                print("Error fetching number of properties: \(error)")
+                return
+            }
+            if let result = result {
+                self.numberOfProperties = result.items.count
+                self.propertyTableView.reloadData() // テーブルビューを更新
+            }
+        }
     }
     
     // Auto Layoutの制約を設定するメソッド
@@ -46,8 +67,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // セクション内の行数を返すデータソースメソッド
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("テーブルビューの行数を設定")
-        return 10  // 仮のデータ数
+        return numberOfProperties
     }
     
     // 各行のセルを返すデータソースメソッド
