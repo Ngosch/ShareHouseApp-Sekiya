@@ -28,6 +28,8 @@
 		FCBA41B32AAFF709009EF8DC /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = FCBA41B22AAFF709009EF8DC /* FirebaseDatabase */; };
 		FCBA41B52AAFF709009EF8DC /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = FCBA41B42AAFF709009EF8DC /* FirebaseStorage */; };
 		FCBA41B72AAFF8A8009EF8DC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCBA41B62AAFF8A8009EF8DC /* GoogleService-Info.plist */; };
+		FCBA41BA2AB021AA009EF8DC /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = FCBA41B92AB021AA009EF8DC /* SDWebImage */; };
+		FCBA41BC2AB021AA009EF8DC /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FCBA41BB2AB021AA009EF8DC /* SDWebImageMapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,7 +61,9 @@
 				FCBA41A92AAF2CFE009EF8DC /* PayPalNativePayments in Frameworks */,
 				FCBA41A32AAF2CFE009EF8DC /* CardPayments in Frameworks */,
 				FCBA41B32AAFF709009EF8DC /* FirebaseDatabase in Frameworks */,
+				FCBA41BA2AB021AA009EF8DC /* SDWebImage in Frameworks */,
 				FCBA41A52AAF2CFE009EF8DC /* CorePayments in Frameworks */,
+				FCBA41BC2AB021AA009EF8DC /* SDWebImageMapKit in Frameworks */,
 				FCBA41B12AAFF709009EF8DC /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -129,6 +133,8 @@
 				FCBA41B02AAFF709009EF8DC /* FirebaseAuth */,
 				FCBA41B22AAFF709009EF8DC /* FirebaseDatabase */,
 				FCBA41B42AAFF709009EF8DC /* FirebaseStorage */,
+				FCBA41B92AB021AA009EF8DC /* SDWebImage */,
+				FCBA41BB2AB021AA009EF8DC /* SDWebImageMapKit */,
 			);
 			productName = ShareHouseApp;
 			productReference = FCBA417D2AAE9F65009EF8DC /* ShareHouseApp.app */;
@@ -162,6 +168,7 @@
 				FCBA419A2AAF1C1D009EF8DC /* XCRemoteSwiftPackageReference "FSCalendar" */,
 				FCBA41A12AAF2CFE009EF8DC /* XCRemoteSwiftPackageReference "paypal-ios" */,
 				FCBA41AF2AAFF709009EF8DC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				FCBA41B82AB021AA009EF8DC /* XCRemoteSwiftPackageReference "SDWebImage" */,
 			);
 			productRefGroup = FCBA417E2AAE9F65009EF8DC /* Products */;
 			projectDirPath = "";
@@ -441,6 +448,14 @@
 				minimumVersion = 10.0.0;
 			};
 		};
+		FCBA41B82AB021AA009EF8DC /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -493,6 +508,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FCBA41AF2AAFF709009EF8DC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		FCBA41B92AB021AA009EF8DC /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FCBA41B82AB021AA009EF8DC /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+		FCBA41BB2AB021AA009EF8DC /* SDWebImageMapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FCBA41B82AB021AA009EF8DC /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImageMapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
