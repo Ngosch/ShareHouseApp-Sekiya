@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseStorage
+import SDWebImage
 
 // 主要なホーム画面のViewController
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -53,9 +55,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         print("セルを設定: \(indexPath.row)")
         let cell = tableView.dequeueReusableCell(withIdentifier: "PropertyCell", for: indexPath) as! PropertyTableViewCell
         
-        // セルに物件名と画像を設定
+        // セルに物件名を設定
         cell.propertyNameLabel.text = "物件 \(indexPath.row + 1)"
-        cell.propertyImageView.image = UIImage(named: "House\(indexPath.row % 3 + 1)")
+        
+        // Firebase Storageから画像をダウンロード
+        let storageRef = Storage.storage().reference(withPath: "House/House\(indexPath.row + 1).jpg")
+        storageRef.downloadURL { (url, error) in
+            if let error = error {
+                print("Error getting download URL: \(error)")
+                return
+            }
+            if let url = url {
+                cell.propertyImageView.sd_setImage(with: url) // SDWebImageを使用して画像を非同期にダウンロード
+            }
+        }
         
         // タップジェスチャーの追加
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
