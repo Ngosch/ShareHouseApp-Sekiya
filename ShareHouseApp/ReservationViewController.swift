@@ -86,15 +86,25 @@ class ReservationViewController: UIViewController, FSCalendarDelegate, FSCalenda
             startDate = date
             endDate = nil
         }
-        calendar.reloadData() // カレンダーの再描画{
+        calendar.reloadData() // カレンダーの再描画
         print("選択された日付: \(date)")
     }
     
-    // 予約可能な日付を色付けする場合のメソッド
+    // 選択された範囲の日付をハイライト表示するメソッド
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
-        // ここで予約可能な日付を指定し、その日付の色を返す
-        // 例: 予約可能な日付の配列を持っている場合、その日付に対して特定の色を返す
+        if let start = startDate, let end = endDate {
+            print("Start Date: \(start), End Date: \(end), Current Date: \(date)") // デバッグ用のログ
+
+            if date.compare(start) == .orderedSame || date.compare(end) == .orderedSame {
+                return .blue // 開始日と終了日の色
+            } else if date.compare(start) == .orderedDescending && date.compare(end) == .orderedAscending {
+                return .lightGray // 開始日と終了日の間の色
+            }
+        }
         return nil
     }
-            
+    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        print("Current page did change")
+    }
+    
 }
