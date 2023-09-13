@@ -7,12 +7,15 @@
 
 import UIKit
 import Firebase
+import FirebaseStorage
 
 
 class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    var roomImages: [String] = []
-    var roomNumbers = ["101", "102", "103", "104"]
+    // 1. roomImages変数の型を変更
+    var roomImages: [String: [String]] = [:]
+    let baseRoomNumbers = ["101", "102", "103", "104"] // 基本の部屋番号
+
     
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -49,10 +52,11 @@ class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, U
         let ref = Database.database().reference().child("properties")
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             guard let properties = snapshot.value as? [String: Any] else { return }
-            for property in properties.values {
-                if let propertyData = property as? [String: Any],
+            for (propertyID, propertyData) in properties {
+                if let propertyData = propertyData as? [String: Any],
                    let roomImagesData = propertyData["roomImages"] as? [String] {
-                    self.roomImages.append(contentsOf: roomImagesData)
+                    // 2. 各物件のIDとそれに関連する部屋画像のリストをroomImages変数に保存
+                    self.roomImages[propertyID] = roomImagesData
                 }
             }
             self.collectionView.reloadData()
@@ -60,20 +64,56 @@ class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return roomImages.count
+        // 各物件が所有する部屋の画像の数を返す
+        return roomImages.keys.count * roomNumbers.count
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RoomCell", for: indexPath) as! RoomCell
-        cell.roomImageView.image = UIImage(named: roomImages[indexPath.item])
-        if indexPath.item < roomNumbers.count {
-            cell.roomNumberLabel.text = "部屋番号: \(roomNumbers[indexPath.item])"
-        } else {
-            cell.roomNumberLabel.text = "部屋番号: 不明"
+        
+        // 部屋番号を動的に生成
+        let roomNumber = baseRoomNumbers[roomIndex]
+        cell.roomNumberLabel.text = "部屋番号: \(roomNumber)"
+        
+        // 物件のインデックスと部屋のインデックスを計算
+        let propertyIndex = indexPath.item / roomNumbers[0].count
+        let roomIndex = indexPath.item % roomNumbers[0].count
+        
+        // 正しい物件の部屋画像を表示
+        let propertyID = Array(roomImages.keys)[propertyIndex]
+        if let imagesForProperty = roomImages[propertyID], roomIndex < imagesForProperty.count {
+            let imageName = imagesForProperty[roomIndex]
+            downloadImageFromFirebase(imageName: imageName, completion: { (image) in
+                cell.roomImageView.image = image
+            })
         }
+        
+        // 2. 部屋番号を新しいroomNumbers配列を使用して設定
+        let roomNumber = roomNumbers[propertyIndex][roomIndex]
+        cell.roomNumberLabel.text = "部屋番号: \(roomNumber)"
         cell.paymentButton.addTarget(self, action: #selector(goToPayment), for: .touchUpInside)
         return cell
     }
+    
+    // Firebase Storageから画像をダウンロードするメソッド
+    func downloadImageFromFirebase(imageName: String, completion: @escaping (UIImage?) -> Void) {
+        // "Room"ディレクトリの下の画像を参照するようにパスを修正
+        let storageRef = Storage.storage().reference(withPath: "Room/\(imageName)")
+        storageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            if let error = error {
+                print("Error downloading image from Firebase Storage: \(error.localizedDescription)")
+                completion(nil)
+            } else if let data = data {
+                let image = UIImage(data: data)
+                if image == nil {
+                    print("Downloaded data could not be converted to an image.")
+                }
+                completion(image)
+            }
+        }
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 300)
