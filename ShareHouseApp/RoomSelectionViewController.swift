@@ -15,7 +15,7 @@ class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, U
     // 1. roomImages変数の型を変更
     var roomImages: [String: [String]] = [:]
     let baseRoomNumbers = ["101", "102", "103", "104"] // 基本の部屋番号
-
+    
     
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -63,9 +63,16 @@ class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, U
         })
     }
     
+    // 追加: セクションの数を物件の数として返す
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return roomImages.keys.count
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // 各物件が所有する部屋の画像の数を返す
-        return roomImages.keys.count * roomNumbers.count
+        // 合計で4部屋のみを表示
+        return min(baseRoomNumbers.count, roomImages.values.flatMap { $0 }.count)
+        
+        
         
     }
     
@@ -73,25 +80,18 @@ class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, U
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RoomCell", for: indexPath) as! RoomCell
         
         // 部屋番号を動的に生成
-        let roomNumber = baseRoomNumbers[roomIndex]
+        let roomNumber = baseRoomNumbers[indexPath.item]
         cell.roomNumberLabel.text = "部屋番号: \(roomNumber)"
         
-        // 物件のインデックスと部屋のインデックスを計算
-        let propertyIndex = indexPath.item / roomNumbers[0].count
-        let roomIndex = indexPath.item % roomNumbers[0].count
-        
         // 正しい物件の部屋画像を表示
-        let propertyID = Array(roomImages.keys)[propertyIndex]
-        if let imagesForProperty = roomImages[propertyID], roomIndex < imagesForProperty.count {
-            let imageName = imagesForProperty[roomIndex]
+        let allImages = roomImages.values.flatMap { $0 }
+        if indexPath.item < allImages.count {
+            let imageName = allImages[indexPath.item]
             downloadImageFromFirebase(imageName: imageName, completion: { (image) in
                 cell.roomImageView.image = image
             })
         }
         
-        // 2. 部屋番号を新しいroomNumbers配列を使用して設定
-        let roomNumber = roomNumbers[propertyIndex][roomIndex]
-        cell.roomNumberLabel.text = "部屋番号: \(roomNumber)"
         cell.paymentButton.addTarget(self, action: #selector(goToPayment), for: .touchUpInside)
         return cell
     }
