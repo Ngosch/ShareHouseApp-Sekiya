@@ -122,4 +122,28 @@ class PropertyDetailViewController: UITableViewController {
         cell.textLabel?.text = propertyDetails[indexPath.row]
         return cell
     }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // 住所のセルがタップされた場合
+        if indexPath.row == 1, let address = propertyDetails[indexPath.row].split(separator: ":").last?.trimmingCharacters(in: .whitespaces) {
+            openGoogleMaps(with: address)
+        }
+        tableView.deselectRow(at: indexPath, animated: true)  // セルの選択を解除
+    }
+
+    func openGoogleMaps(with address: String) {
+        if let encodedAddress = address.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+            if let url = URL(string: "comgooglemaps://?q=\(encodedAddress)") {
+                // Google Mapsアプリがインストールされている場合
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                } else {
+                    // Google Mapsアプリがインストールされていない場合、WebブラウザでGoogle Mapsを開く
+                    if let webURL = URL(string: "https://www.google.com/maps/search/?api=1&query=\(encodedAddress)") {
+                        UIApplication.shared.open(webURL, options: [:], completionHandler: nil)
+                    }
+                }
+            }
+        }
+    }
+
 }
