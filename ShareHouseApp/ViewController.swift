@@ -23,7 +23,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var numberOfProperties: Int = 0
     
     // Firebase Realtime Databaseから取得した物件の情報を格納するプロパティ
-    var properties: [String: [String: String]] = [:]
+    var properties: [[String: Any]] = []
     
     // ビューがメモリにロードされた後に呼ばれるメソッド
     override func viewDidLoad() {
@@ -68,8 +68,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     private func fetchPropertiesFromFirebase() {
         let ref = Database.database().reference().child("properties")
         ref.observeSingleEvent(of: .value) { (snapshot) in
-            if let propertiesData = snapshot.value as? [String: [String: String]] {
-                self.properties = propertiesData
+            if let propertiesData = snapshot.value as? [String: [String: Any]] {
+                // キーの順番にソート
+                let sortedProperties = propertiesData.sorted(by: { $0.key < $1.key })
+                self.properties = sortedProperties.map { $0.value }
+                
+                self.numberOfProperties = self.properties.count
                 self.propertyTableView.reloadData()  // テーブルビューを更新
             }
         }
@@ -86,7 +90,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // セクション内の行数を返すデータソースメソッド
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numberOfProperties
+        return properties.count
     }
     
     // 各行のセルを返すデータソースメソッド
@@ -95,22 +99,23 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "PropertyCell", for: indexPath) as! PropertyTableViewCell
         
         // セルに物件名を設定
-        let propertyKey = "property\(indexPath.row + 1)"
-        if let propertyName = properties[propertyKey]?["name"] {
+        if let propertyName = properties[indexPath.row]["name"] as? String {
             cell.propertyNameLabel.text = propertyName
         } else {
             cell.propertyNameLabel.text = "物件 \(indexPath.row + 1)"
         }
         
         // Firebase Storageから画像をダウンロード
-        let storageRef = Storage.storage().reference(withPath: "House/House\(indexPath.row + 1).jpg")
-        storageRef.downloadURL { (url, error) in
-            if let error = error {
-                print("Error getting download URL: \(error)")
-                return
-            }
-            if let url = url {
-                cell.propertyImageView.sd_setImage(with: url) // SDWebImageを使用して画像を非同期にダウンロード
+        if let imageName = properties[indexPath.row]["image"] as? String {
+            let storageRef = Storage.storage().reference(withPath: "House/\(imageName)")
+            storageRef.downloadURL { (url, error) in
+                if let error = error {
+                    print("Error getting download URL: \(error)")
+                    return
+                }
+                if let url = url {
+                    cell.propertyImageView.sd_setImage(with: url) // SDWebImageを使用して画像を非同期にダウンロード
+                }
             }
         }
         

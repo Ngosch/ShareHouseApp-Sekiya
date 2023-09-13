@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import Firebase
+
 
 class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    let roomImages = ["Room1", "Room2", "Room3", "Room4"]
-    let roomNumbers = ["101", "102", "103", "104"]
+    var roomImages: [String] = []
+    var roomNumbers = ["101", "102", "103", "104"]
     
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -26,6 +28,9 @@ class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, U
         title = "部屋選択"
         view.backgroundColor = .white
         
+        // Firebaseから部屋の画像のファイル名を取得
+        fetchRoomImages()
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(RoomCell.self, forCellWithReuseIdentifier: "RoomCell")
@@ -40,6 +45,20 @@ class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, U
         ])
     }
     
+    func fetchRoomImages() {
+        let ref = Database.database().reference().child("properties")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let properties = snapshot.value as? [String: Any] else { return }
+            for property in properties.values {
+                if let propertyData = property as? [String: Any],
+                   let roomImagesData = propertyData["roomImages"] as? [String] {
+                    self.roomImages.append(contentsOf: roomImagesData)
+                }
+            }
+            self.collectionView.reloadData()
+        })
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return roomImages.count
     }
@@ -47,7 +66,11 @@ class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, U
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RoomCell", for: indexPath) as! RoomCell
         cell.roomImageView.image = UIImage(named: roomImages[indexPath.item])
-        cell.roomNumberLabel.text = "部屋番号: \(roomNumbers[indexPath.item])"
+        if indexPath.item < roomNumbers.count {
+            cell.roomNumberLabel.text = "部屋番号: \(roomNumbers[indexPath.item])"
+        } else {
+            cell.roomNumberLabel.text = "部屋番号: 不明"
+        }
         cell.paymentButton.addTarget(self, action: #selector(goToPayment), for: .touchUpInside)
         return cell
     }

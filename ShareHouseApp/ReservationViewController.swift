@@ -14,6 +14,15 @@ class ReservationViewController: UIViewController, FSCalendarDelegate, FSCalenda
     var startDate: Date?
     var endDate: Date?
     
+    // 選択された日付範囲を表示するためのラベルを作成
+    let selectedDateRangeLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.text = "選択中"
+        return label
+    }()
+    
     // FSCalendarのインスタンスを作成
     let calendar: FSCalendar = {
         let calendar = FSCalendar()
@@ -49,6 +58,16 @@ class ReservationViewController: UIViewController, FSCalendarDelegate, FSCalenda
         // 遷移ボタンをビューに追加
         view.addSubview(roomSelectionButton)
         
+        // ラベルをビューに追加
+        view.addSubview(selectedDateRangeLabel)
+        
+        // ラベルのレイアウトを設定
+        NSLayoutConstraint.activate([
+            selectedDateRangeLabel.topAnchor.constraint(equalTo: calendar.bottomAnchor, constant: 20),
+            selectedDateRangeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            selectedDateRangeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+        ])
+        
         setupLayout()
     }
     
@@ -83,6 +102,19 @@ class ReservationViewController: UIViewController, FSCalendarDelegate, FSCalenda
             if let start = startDate, let end = endDate, start > end {
                 // 開始日が終了日より後の場合、選択を入れ替える
                 swap(&startDate, &endDate)
+            }
+            
+            // 選択された日付範囲を更新
+            if let start = startDate, let end = endDate {
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy年M月d日"
+                selectedDateRangeLabel.text = "選択中 \(formatter.string(from: start))〜\(formatter.string(from: end))"
+            } else if let start = startDate {
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy年M月d日"
+                selectedDateRangeLabel.text = "選択中 \(formatter.string(from: start))"
+            } else {
+                selectedDateRangeLabel.text = "選択中"
             }
             
             // 開始日から終了日までの日数を確認

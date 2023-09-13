@@ -52,7 +52,7 @@ class PropertyDetailViewController: UITableViewController {
                 }
             }
         }
-
+        
         
         // ナビゲーションバーの右上に予約ボタンを追加
         let reserveButton = UIBarButtonItem(title: "予約", style: .plain, target: self, action: #selector(reserveButtonTapped))
@@ -65,19 +65,19 @@ class PropertyDetailViewController: UITableViewController {
     // Firebase Realtime Databaseから物件の詳細情報を取得するメソッド
     private func fetchPropertyDetailsFromFirebase() {
         guard let imageName = selectedPropertyImageName else { return }
-        let propertyId = imageName.replacingOccurrences(of: "House", with: "property")
+        let propertyId = imageName.replacingOccurrences(of: "House", with: "property").replacingOccurrences(of: ".jpg", with: "")
         let ref = Database.database().reference(withPath: "properties/\(propertyId)")
         ref.observeSingleEvent(of: .value) { (snapshot) in
-            if let propertyData = snapshot.value as? [String: String] {
+            if let propertyData = snapshot.value as? [String: Any] {
                 self.propertyDetails = [
-                    "拠点名: \(propertyData["name"] ?? "不明")",
-                    "住所: \(propertyData["address"] ?? "不明")",
-                    "説明: \(propertyData["description"] ?? "不明")",
-                    "設備: \(propertyData["facilities"] ?? "不明")"
+                    "拠点名: \(propertyData["name"] as? String ?? "不明")",
+                    "住所: \(propertyData["address"] as? String ?? "不明")",
+                    "説明: \(propertyData["description"] as? String ?? "不明")",
+                    "設備: \(propertyData["facilities"] as? String ?? "不明")"
                 ]
                 
                 // Firebase Storageから画像を取得
-                if let imageNameFromDB = propertyData["image"] {
+                if let imageNameFromDB = propertyData["image"] as? String {
                     let storageRef = Storage.storage().reference(withPath: "House/\(imageNameFromDB)")
                     storageRef.downloadURL { (url, error) in
                         if let error = error {
