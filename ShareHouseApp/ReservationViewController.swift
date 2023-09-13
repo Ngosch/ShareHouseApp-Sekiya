@@ -18,6 +18,7 @@ class ReservationViewController: UIViewController, FSCalendarDelegate, FSCalenda
     let calendar: FSCalendar = {
         let calendar = FSCalendar()
         calendar.translatesAutoresizingMaskIntoConstraints = false
+        calendar.allowsMultipleSelection = true // 複数選択を許可
         return calendar
     }()
     
@@ -76,25 +77,50 @@ class ReservationViewController: UIViewController, FSCalendarDelegate, FSCalenda
         if startDate == nil {
             startDate = date
             endDate = nil
+            calendar.select(date) // 日付を選択
         } else if endDate == nil {
             endDate = date
             if let start = startDate, let end = endDate, start > end {
                 // 開始日が終了日より後の場合、選択を入れ替える
                 swap(&startDate, &endDate)
             }
+            
+            // 開始日から終了日までの日数を確認
+            if let start = startDate, let end = endDate {
+                let daysBetween = Calendar.current.dateComponents([.day], from: start, to: end).day!
+                if daysBetween > 14 {
+                    // 14日を超える場合、全ての選択を解除
+                    calendar.deselect(startDate!)
+                    calendar.deselect(endDate!)
+                    startDate = nil
+                    endDate = nil
+                    return
+                }
+            }
+            
+            // 開始日から終了日までの日付を選択
+            var dateToSelect = startDate!
+            while dateToSelect <= endDate! {
+                calendar.select(dateToSelect)
+                dateToSelect = Calendar.current.date(byAdding: .day, value: 1, to: dateToSelect)!
+            }
         } else {
+            calendar.deselect(startDate!) // 既存の選択を解除
+            if endDate != nil {
+                calendar.deselect(endDate!)
+            }
             startDate = date
             endDate = nil
+            calendar.select(date) // 新しい日付を選択
         }
-        calendar.reloadData() // カレンダーの再描画
         print("選択された日付: \(date)")
     }
     
-    // 選択された範囲の日付をハイライト表示するメソッド
+    
+    
+    
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
         if let start = startDate, let end = endDate {
-            print("Start Date: \(start), End Date: \(end), Current Date: \(date)") // デバッグ用のログ
-
             if date.compare(start) == .orderedSame || date.compare(end) == .orderedSame {
                 return .blue // 開始日と終了日の色
             } else if date.compare(start) == .orderedDescending && date.compare(end) == .orderedAscending {
@@ -103,6 +129,7 @@ class ReservationViewController: UIViewController, FSCalendarDelegate, FSCalenda
         }
         return nil
     }
+    
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         print("Current page did change")
     }
