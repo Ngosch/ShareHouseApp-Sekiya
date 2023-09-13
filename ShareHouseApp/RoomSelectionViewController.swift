@@ -55,13 +55,17 @@ class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, U
             for (propertyID, propertyData) in properties {
                 if let propertyData = propertyData as? [String: Any],
                    let roomImagesData = propertyData["roomImages"] as? [String] {
-                    // 2. 各物件のIDとそれに関連する部屋画像のリストをroomImages変数に保存
+                    // 各物件のIDとそれに関連する部屋画像のリストをroomImages変数に保存
                     self.roomImages[propertyID] = roomImagesData
+                    
+                    // どの物件のデータベースから情報を取得しているかをログに出力
+                    print("Fetching data from property: \(propertyID)")
                 }
             }
             self.collectionView.reloadData()
         })
     }
+
     
     // 追加: セクションの数を物件の数として返す
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -108,6 +112,9 @@ class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, U
                 let image = UIImage(data: data)
                 if image == nil {
                     print("Downloaded data could not be converted to an image.")
+                } else {
+                    // 画像の名前をログに出力
+                    print("Downloaded image: \(imageName)")
                 }
                 completion(image)
             }
