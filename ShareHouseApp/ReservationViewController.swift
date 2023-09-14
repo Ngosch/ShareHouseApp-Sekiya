@@ -122,6 +122,7 @@ class ReservationViewController: UIViewController, FSCalendarDelegate, FSCalenda
     // 部屋選択画面への遷移メソッド
     @objc func goToRoomSelection() {
         let roomSelectionVC = RoomSelectionViewController() // 部屋選択画面のViewControllerを仮定
+        roomSelectionVC.selectedPropertyName = self.selectedPropertyName
         navigationController?.pushViewController(roomSelectionVC, animated: true)
     }
     

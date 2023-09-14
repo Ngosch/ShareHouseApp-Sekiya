@@ -12,6 +12,8 @@ import FirebaseStorage
 
 class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    var selectedPropertyName: String?
+    
     // 1. roomImages変数の型を変更
     var roomImages: [String: [String]] = [:]
     let baseRoomNumbers = ["101", "102", "103", "104"] // 基本の部屋番号
@@ -27,6 +29,14 @@ class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, U
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let selectedPropertyNameLabel: UILabel = {
+            let label = UILabel()
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.textAlignment = .center
+            label.text = "選択中の拠点: 未選択"
+            return label
+        }()
         
         title = "部屋選択"
         view.backgroundColor = .white
@@ -45,6 +55,19 @@ class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, U
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        
+        if let name = selectedPropertyName {
+            selectedPropertyNameLabel.text = "選択中の拠点: \(name)"
+        }
+        
+        view.addSubview(selectedPropertyNameLabel)
+        
+        // ラベルの制約を設定
+        NSLayoutConstraint.activate([
+            selectedPropertyNameLabel.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -30),
+            selectedPropertyNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            selectedPropertyNameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
     
@@ -66,7 +89,7 @@ class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, U
             self.collectionView.reloadData()
         })
     }
-
+    
     
     // 追加: セクションの数を物件の数として返す
     func numberOfSections(in collectionView: UICollectionView) -> Int {
