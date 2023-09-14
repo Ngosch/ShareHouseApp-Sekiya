@@ -42,7 +42,7 @@ class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, U
         view.backgroundColor = .white
         
         // Firebaseから部屋の画像のファイル名を取得
-        fetchRoomImages()
+        fetchRoomImagesForSelectedProperty()  // この行を修正
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -71,24 +71,32 @@ class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, U
         ])
     }
     
-    func fetchRoomImages() {
+    func fetchRoomImagesForSelectedProperty() {
+        guard let propertyName = selectedPropertyName else {
+            print("No property name selected.")
+            return
+        }
+        
         let ref = Database.database().reference().child("properties")
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             guard let properties = snapshot.value as? [String: Any] else { return }
-            for (propertyID, propertyData) in properties {
-                print(propertyID)
+            
+            for (propertyKey, propertyData) in properties {
                 if let propertyData = propertyData as? [String: Any],
+                   let name = propertyData["name"] as? String,
+                   name == propertyName,
                    let roomImagesData = propertyData["roomImages"] as? [String] {
-                    // 各物件のIDとそれに関連する部屋画像のリストをroomImages変数に保存
-                    self.roomImages[propertyID] = roomImagesData
+                    // 特定の物件の部屋画像のリストをroomImages変数に保存
+                    self.roomImages[propertyKey] = roomImagesData
                     
                     // どの物件のデータベースから情報を取得しているかをログに出力
-                    print("Fetching data from property: \(propertyID)")
+                    print("Fetching data from property: \(propertyName)")
                 }
             }
             self.collectionView.reloadData()
         })
     }
+    
     
     
     // 追加: セクションの数を物件の数として返す
