@@ -10,6 +10,22 @@ import FSCalendar
 
 class ReservationViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource {
     
+    // 1. 選択中の物件名を保持するプロパティを追加
+    var selectedPropertyName: String? {
+        didSet {
+            updateSelectedPropertyNameLabel()
+        }
+    }
+    
+    // 2. 選択中の物件名を表示するためのラベルを作成
+    let selectedPropertyNameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.text = "選択中の物件: 未選択"
+        return label
+    }()
+    
     // 選択された開始日と終了日を保持するプロパティ
     var startDate: Date?
     var endDate: Date?
@@ -52,23 +68,41 @@ class ReservationViewController: UIViewController, FSCalendarDelegate, FSCalenda
         calendar.delegate = self
         calendar.dataSource = self
         
-        // FSCalendarをビューに追加
+        // 1. すべてのビューをviewに追加
         view.addSubview(calendar)
-        
-        // 遷移ボタンをビューに追加
         view.addSubview(roomSelectionButton)
-        
-        // ラベルをビューに追加
         view.addSubview(selectedDateRangeLabel)
+        view.addSubview(selectedPropertyNameLabel) // この行を追加
         
-        // ラベルのレイアウトを設定
+        // 2. その後、それらのビューに対して制約を設定
         NSLayoutConstraint.activate([
+            calendar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            calendar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            calendar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            calendar.heightAnchor.constraint(equalToConstant: 400),
+            
             selectedDateRangeLabel.topAnchor.constraint(equalTo: calendar.bottomAnchor, constant: 20),
             selectedDateRangeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            selectedDateRangeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            selectedDateRangeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            selectedPropertyNameLabel.topAnchor.constraint(equalTo: selectedDateRangeLabel.bottomAnchor, constant: 10),
+            selectedPropertyNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            selectedPropertyNameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            roomSelectionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            roomSelectionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            roomSelectionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            roomSelectionButton.heightAnchor.constraint(equalToConstant: 50)
         ])
-        
-        setupLayout()
+    }
+    
+    // 4. 選択中の物件名を更新するメソッドを追加
+    func updateSelectedPropertyNameLabel() {
+        if let name = selectedPropertyName {
+            selectedPropertyNameLabel.text = "選択中の拠点: \(name)"
+        } else {
+            selectedPropertyNameLabel.text = "選択中の拠点: 未選択"
+        }
     }
     
     private func setupLayout() {

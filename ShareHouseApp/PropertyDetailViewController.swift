@@ -103,8 +103,11 @@ class PropertyDetailViewController: UITableViewController {
     
     // 予約ボタンがタップされたときのアクション
     @objc func reserveButtonTapped() {
-        // 予約画面への遷移のコードをここに書く
-        let reservationViewController = ReservationViewController() // 予約画面のViewControllerを仮定
+        let reservationViewController = ReservationViewController()
+        // 選択された物件の名前をReservationViewControllerに渡す
+        if let propertyName = propertyDetails.first?.split(separator: ":").last?.trimmingCharacters(in: .whitespaces) {
+            reservationViewController.selectedPropertyName = propertyName
+        }
         navigationController?.pushViewController(reservationViewController, animated: true)
     }
     
@@ -130,7 +133,7 @@ class PropertyDetailViewController: UITableViewController {
         }
         tableView.deselectRow(at: indexPath, animated: true)  // セルの選択を解除
     }
-
+    
     func openGoogleMaps(with address: String) {
         if let encodedAddress = address.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
             if let url = URL(string: "comgooglemaps://?q=\(encodedAddress)") {
@@ -146,5 +149,5 @@ class PropertyDetailViewController: UITableViewController {
             }
         }
     }
-
+    
 }
