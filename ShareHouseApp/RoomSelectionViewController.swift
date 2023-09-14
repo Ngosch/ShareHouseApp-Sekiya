@@ -53,6 +53,7 @@ class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, U
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             guard let properties = snapshot.value as? [String: Any] else { return }
             for (propertyID, propertyData) in properties {
+                print(propertyID)
                 if let propertyData = propertyData as? [String: Any],
                    let roomImagesData = propertyData["roomImages"] as? [String] {
                     // 各物件のIDとそれに関連する部屋画像のリストをroomImages変数に保存

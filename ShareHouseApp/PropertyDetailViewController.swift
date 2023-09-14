@@ -65,6 +65,7 @@ class PropertyDetailViewController: UITableViewController {
     // Firebase Realtime Databaseから物件の詳細情報を取得するメソッド
     private func fetchPropertyDetailsFromFirebase() {
         guard let imageName = selectedPropertyImageName else { return }
+        print(imageName)
         let propertyId = imageName.replacingOccurrences(of: "House", with: "property").replacingOccurrences(of: ".jpg", with: "")
         let ref = Database.database().reference(withPath: "properties/\(propertyId)")
         ref.observeSingleEvent(of: .value) { (snapshot) in
