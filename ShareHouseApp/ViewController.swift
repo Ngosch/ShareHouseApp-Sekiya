@@ -111,6 +111,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.propertyNameLabel.text = "物件 \(indexPath.row + 1)"
         }
         
+        // セルに物件の住所を設定
+        if let propertyAddress = properties[indexPath.row]["address"] as? String {
+            cell.propertyAddressLabel.text = propertyAddress
+        } else {
+            cell.propertyAddressLabel.text = "住所不明"
+        }
+        
         // Firebase Storageから画像をダウンロード
         if let imageName = properties[indexPath.row]["image"] as? String {
             let storageRef = Storage.storage().reference(withPath: "House/\(imageName)")
@@ -129,6 +136,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
         cell.propertyImageView.addGestureRecognizer(tapGesture)
         cell.propertyImageView.isUserInteractionEnabled = true
+        
+        // 3. 新しいUILabelにテキストを設定
+        // この例ではすべてのセルに"1000円/泊"と表示しますが、必要に応じて変更できます。
+        cell.pricePerNightLabel.text = "1000円/泊"
         
         return cell
     }
@@ -149,7 +160,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 250 // 画像の高さ250 + ラベルの高さ30
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("セルがタップされました: \(indexPath.row)")
         let detailViewController = PropertyDetailViewController()
@@ -171,6 +182,26 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 // カスタムテーブルビューセル
 class PropertyTableViewCell: UITableViewCell {
     
+    // 1. 新しいUILabelを追加
+    let pricePerNightLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .clear  // 背景を透明に設定
+        label.textColor = .white  // テキスト色を白に設定
+        label.textAlignment = .right  // テキストを右寄せに設定
+        label.text = "1000円/泊"
+        return label
+    }()
+    
+    // 物件の住所を表示するUILabel
+    let propertyAddressLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = UIColor.black.withAlphaComponent(0.5)  // 半透明の黒背景
+        label.textColor = .white  // テキスト色を白に設定
+        label.textAlignment = .left  // テキストを左寄せに設定
+        label.font = UIFont.systemFont(ofSize: 12)  // フォントサイズを14に設定
+        return label
+    }()
+    
     // 物件の画像を表示するUIImageView
     let propertyImageView: UIImageView = {
         let imageView = UIImageView()
@@ -184,9 +215,10 @@ class PropertyTableViewCell: UITableViewCell {
         let label = UILabel()
         label.backgroundColor = UIColor.black.withAlphaComponent(0.5)  // 半透明の黒背景
         label.textColor = .white  // テキスト色を白に設定
-        label.textAlignment = .center  // テキストを中央揃えに設定
+        label.textAlignment = .right  // テキストを右寄せに設定
         return label
     }()
+    
     
     // カスタムセルの初期化
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -212,18 +244,42 @@ class PropertyTableViewCell: UITableViewCell {
         propertyImageView.translatesAutoresizingMaskIntoConstraints = false
         propertyNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
+        addSubview(propertyAddressLabel)  // 住所ラベルをセルに追加
+        
+        propertyAddressLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        
+        NSLayoutConstraint.activate([
+            propertyAddressLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            propertyAddressLabel.bottomAnchor.constraint(equalTo: propertyImageView.bottomAnchor),
+            propertyAddressLabel.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        
         NSLayoutConstraint.activate([
             propertyImageView.topAnchor.constraint(equalTo: topAnchor),
             propertyImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             propertyImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             propertyImageView.heightAnchor.constraint(equalToConstant: 250), // 画像の高さを250に設定
             
-            propertyNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            propertyNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            propertyNameLabel.leadingAnchor.constraint(equalTo: propertyAddressLabel.trailingAnchor, constant: 10),
+            propertyNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             propertyNameLabel.bottomAnchor.constraint(equalTo: propertyImageView.bottomAnchor, constant: 0), // ラベルを画像の下部から10の距離で配置
             propertyNameLabel.heightAnchor.constraint(equalToConstant: 30)  // ラベルの高さを30に設定
         ])
+        
+        // UIImageViewとUILabelをセルに追加
+        addSubview(pricePerNightLabel)
+        
+        pricePerNightLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            pricePerNightLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            pricePerNightLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            pricePerNightLabel.bottomAnchor.constraint(equalTo: propertyNameLabel.topAnchor, constant: 5), // propertyNameLabelの上に5の距離で配置
+            pricePerNightLabel.heightAnchor.constraint(equalToConstant: 30)  // ラベルの高さを30に設定
+        ])
+        
     }
-
-
+    
+    
+    
 }
