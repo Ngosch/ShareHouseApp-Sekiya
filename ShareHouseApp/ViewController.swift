@@ -9,6 +9,7 @@ import UIKit
 import FirebaseStorage
 import SDWebImage
 import FirebaseDatabase  // Firebase Realtime Databaseを使用するためのインポート
+import Hero  // Heroをインポート
 
 // 主要なホーム画面のViewController
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -28,6 +29,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     // ビューがメモリにロードされた後に呼ばれるメソッド
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Heroアニメーションを有効にする
+        self.hero.isEnabled = true
+        self.navigationController?.hero.isEnabled = true  // この行を追加
+        
+        // HomeViewControllerの起動時のアニメーションを設定
+        self.view.hero.id = "homeView"
+        self.view.hero.modifiers = [.fade, .scale(0.5)]
         
         // 背景色を白に設定
         view.backgroundColor = .white
@@ -78,7 +87,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
     }
-
+    
     
     // Auto Layoutの制約を設定するメソッド
     private func setupLayout() {
@@ -131,6 +140,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @objc func imageTapped(_ sender: UITapGestureRecognizer) {
         print("画像がタップされました")
         let detailViewController = PropertyDetailViewController()
+        
+        // 画面遷移時のアニメーションを設定
+        detailViewController.hero.isEnabled = true
+        detailViewController.view.hero.id = "detailView"
+        detailViewController.view.hero.modifiers = [.fade, .scale(0.5)]
+        
         navigationController?.pushViewController(detailViewController, animated: true)
     }
     
@@ -152,8 +167,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         // セルの選択状態を解除
         tableView.deselectRow(at: indexPath, animated: true)
     }
-
-
+    
+    
 }
 
 // カスタムテーブルビューセル
