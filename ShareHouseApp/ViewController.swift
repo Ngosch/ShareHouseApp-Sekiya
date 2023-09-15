@@ -52,6 +52,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // Firebase Realtime Databaseから物件の情報を取得
         fetchPropertiesFromFirebase()
+        
     }
     
     // Firebase Storageから物件画像の数を取得するメソッド
@@ -145,7 +146,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         print("検索ボタンが押されました")
         // 検索処理をここに書く
     }
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 250 // 画像の高さ250 + ラベルの高さ30
+    }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("セルがタップされました: \(indexPath.row)")
         let detailViewController = PropertyDetailViewController()
@@ -178,6 +182,9 @@ class PropertyTableViewCell: UITableViewCell {
     // 物件名を表示するUILabel
     let propertyNameLabel: UILabel = {
         let label = UILabel()
+        label.backgroundColor = UIColor.black.withAlphaComponent(0.5)  // 半透明の黒背景
+        label.textColor = .white  // テキスト色を白に設定
+        label.textAlignment = .center  // テキストを中央揃えに設定
         return label
     }()
     
@@ -206,14 +213,17 @@ class PropertyTableViewCell: UITableViewCell {
         propertyNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            propertyImageView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            propertyImageView.topAnchor.constraint(equalTo: topAnchor),
             propertyImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             propertyImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            propertyImageView.heightAnchor.constraint(equalToConstant: 200),
+            propertyImageView.heightAnchor.constraint(equalToConstant: 250), // 画像の高さを250に設定
             
-            propertyNameLabel.topAnchor.constraint(equalTo: propertyImageView.bottomAnchor, constant: 10),
-            propertyNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            propertyNameLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+            propertyNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            propertyNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            propertyNameLabel.bottomAnchor.constraint(equalTo: propertyImageView.bottomAnchor, constant: 0), // ラベルを画像の下部から10の距離で配置
+            propertyNameLabel.heightAnchor.constraint(equalToConstant: 30)  // ラベルの高さを30に設定
         ])
     }
+
+
 }
