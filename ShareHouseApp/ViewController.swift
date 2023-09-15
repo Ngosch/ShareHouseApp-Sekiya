@@ -182,6 +182,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 // カスタムテーブルビューセル
 class PropertyTableViewCell: UITableViewCell {
     
+    // 新しいUIViewを追加
+    let backgroundBlackView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)  // 半透明の黒背景
+        return view
+    }()
+    
     // 1. 新しいUILabelを追加
     let pricePerNightLabel: UILabel = {
         let label = UILabel()
@@ -195,7 +202,7 @@ class PropertyTableViewCell: UITableViewCell {
     // 物件の住所を表示するUILabel
     let propertyAddressLabel: UILabel = {
         let label = UILabel()
-        label.backgroundColor = UIColor.black.withAlphaComponent(0.5)  // 半透明の黒背景
+        label.backgroundColor = .clear  // 背景を透明に設定
         label.textColor = .white  // テキスト色を白に設定
         label.textAlignment = .left  // テキストを左寄せに設定
         label.font = UIFont.systemFont(ofSize: 12)  // フォントサイズを14に設定
@@ -213,7 +220,7 @@ class PropertyTableViewCell: UITableViewCell {
     // 物件名を表示するUILabel
     let propertyNameLabel: UILabel = {
         let label = UILabel()
-        label.backgroundColor = UIColor.black.withAlphaComponent(0.5)  // 半透明の黒背景
+        label.backgroundColor = .clear  // 背景を透明に設定
         label.textColor = .white  // テキスト色を白に設定
         label.textAlignment = .right  // テキストを右寄せに設定
         return label
@@ -226,7 +233,12 @@ class PropertyTableViewCell: UITableViewCell {
         
         // UIImageViewとUILabelをセルに追加
         addSubview(propertyImageView)
-        addSubview(propertyNameLabel)
+        
+        // 新しいUIViewの制約を設定
+        addSubview(backgroundBlackView)
+        
+        addSubview(propertyNameLabel) // この行をbackgroundBlackViewの後に移動
+        addSubview(propertyAddressLabel)
         
         // Auto Layoutの制約を設定
         setupLayout()
@@ -243,6 +255,15 @@ class PropertyTableViewCell: UITableViewCell {
     private func setupLayout() {
         propertyImageView.translatesAutoresizingMaskIntoConstraints = false
         propertyNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        // 新しいUIViewの制約を設定
+        backgroundBlackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            backgroundBlackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            backgroundBlackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            backgroundBlackView.bottomAnchor.constraint(equalTo: propertyImageView.bottomAnchor),
+            backgroundBlackView.heightAnchor.constraint(equalToConstant: 60)  // 物件名と物件住所のラベルの合計高さ
+        ])
         
         addSubview(propertyAddressLabel)  // 住所ラベルをセルに追加
         
@@ -277,9 +298,7 @@ class PropertyTableViewCell: UITableViewCell {
             pricePerNightLabel.bottomAnchor.constraint(equalTo: propertyNameLabel.topAnchor, constant: 5), // propertyNameLabelの上に5の距離で配置
             pricePerNightLabel.heightAnchor.constraint(equalToConstant: 30)  // ラベルの高さを30に設定
         ])
-        
+        propertyNameLabel.backgroundColor = .clear  // 背景を透明に設定
+        propertyAddressLabel.backgroundColor = .clear  // 背景を透明に設定
     }
-    
-    
-    
 }
