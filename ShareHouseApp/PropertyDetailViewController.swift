@@ -25,6 +25,9 @@ class PropertyDetailViewController: UITableViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100  // これは適切な推定値に変更できます
         
+        // Heroアニメーションの設定
+        self.hero.isEnabled = true
+        
         // タイトルを設定
         self.title = "拠点詳細"
         

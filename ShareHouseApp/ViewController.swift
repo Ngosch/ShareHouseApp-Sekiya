@@ -34,10 +34,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.hero.isEnabled = true
         self.navigationController?.hero.isEnabled = true  // この行を追加
         
-        // HomeViewControllerの起動時のアニメーションを設定
-        self.view.hero.id = "homeView"
-        self.view.hero.modifiers = [.fade, .scale(0.5)]
-        
         // 背景色を白に設定
         view.backgroundColor = .white
         
@@ -141,11 +137,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         print("画像がタップされました")
         let detailViewController = PropertyDetailViewController()
         
-        // 画面遷移時のアニメーションを設定
-        detailViewController.hero.isEnabled = true
-        detailViewController.view.hero.id = "detailView"
-        detailViewController.view.hero.modifiers = [.fade, .scale(0.5)]
-        
         navigationController?.pushViewController(detailViewController, animated: true)
     }
     
@@ -159,8 +150,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         print("セルがタップされました: \(indexPath.row)")
         let detailViewController = PropertyDetailViewController()
         
+        
         // 選択された物件の画像名をPropertyDetailViewControllerに渡す
         detailViewController.selectedPropertyImageName = "House\(indexPath.row + 1)"
+        
         
         navigationController?.pushViewController(detailViewController, animated: true)
         
