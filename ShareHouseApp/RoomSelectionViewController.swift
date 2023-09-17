@@ -159,7 +159,7 @@ class RoomSelectionViewController: UIViewController, UICollectionViewDelegate, U
     }
     
     @objc func goToPayment() {
-        print("お支払いへ遷移")
+        print("お支払いへ遷移しました")
         // お支払い画面への遷移ロジック
         let paymentVC = PaymentViewController()
         navigationController?.pushViewController(paymentVC, animated: true)
@@ -217,4 +217,5 @@ class RoomCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }
